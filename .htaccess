@@ -1,0 +1,28 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    RewriteEngine On
+</IfModule>
+ 
+<IfModule mod_rewrite.c>    
+    RewriteCond %{REQUEST_URI} ^/(admin)
+    RewriteRule ^admin/assets/(.*)$ backend/web/assets/$1 [L]
+    RewriteRule ^admin/css/(.*)$ backend/web/css/$1 [L]
+    RewriteRule ^admin/js/(.*)$ backend/web/js/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/backend/web/(assets|js|css|js)/
+    RewriteCond %{REQUEST_URI} ^/(admin)
+    RewriteRule ^.*$ backend/web/index.php [L]
+    RewriteCond %{REQUEST_URI} ^/(assets|css|js|images)
+    RewriteRule ^assets/(.*)$ web/assets/$1 [L]
+    RewriteRule ^css/(.*)$ web/css/$1 [L]
+    RewriteRule ^js/(.*)$ web/js/$1 [L]
+    RewriteRule ^images/(.*)$ web/images/$1 [L]
+    RewriteRule ^(.*)$ web/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/web/(assets|css|js)/
+    RewriteCond %{REQUEST_URI} !index.php
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ web/index.php
+
+	RewriteCond %{SERVER_PORT} 80
+	RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
+</IfModule>
